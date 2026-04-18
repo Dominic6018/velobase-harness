@@ -19,14 +19,16 @@ spec:
         ports:
         - containerPort: 3000
         livenessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/health
             port: 3000
           initialDelaySeconds: 15
           periodSeconds: 30
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/ready
             port: 3000
           initialDelaySeconds: 10
           periodSeconds: 30
@@ -35,6 +37,8 @@ spec:
         env:
         - name: APP_NAME
           value: velobase-harness
+        - name: SERVICE_MODE
+          value: "web"
         - name: POD_IP
           valueFrom:
             fieldRef:
